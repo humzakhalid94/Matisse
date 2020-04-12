@@ -22,6 +22,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhihu.matisse.engine.ImageEngine;
 
 /**
@@ -35,9 +39,9 @@ public class GlideEngine implements ImageEngine {
         Glide.with(context)
                 .load(uri)
                 // .asBitmap()  // some .jpeg files are actually gif
-                .placeholder(placeholder)
-                .override(resize, resize)
-                .centerCrop()
+//                .placeholder(placeholder)
+//                .override(resize, resize)
+//                .centerCrop()
                 .into(imageView);
     }
 
@@ -47,9 +51,12 @@ public class GlideEngine implements ImageEngine {
         Glide.with(context)
                 .load(uri)
                 // .asBitmap()
-                .placeholder(placeholder)
-                .override(resize, resize)
-                .centerCrop()
+//                .placeholder(placeholder)
+//                .override(resize, resize)
+//                .centerCrop()
+                .apply(new RequestOptions()
+                        .transforms(new CenterCrop(), new RoundedCorners(16))
+                        .placeholder(placeholder))
                 .into(imageView);
     }
 
@@ -57,9 +64,12 @@ public class GlideEngine implements ImageEngine {
     public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
         Glide.with(context)
                 .load(uri)
-                .override(resizeX, resizeY)
-                .priority(Priority.HIGH)
-                .fitCenter()
+//                .override(resizeX, resizeY)
+//                .priority(Priority.HIGH)
+//                .fitCenter()
+                .apply(new RequestOptions()
+                        .transforms(new FitCenter(), new RoundedCorners(16))
+                        )
                 .into(imageView);
     }
 
@@ -67,9 +77,9 @@ public class GlideEngine implements ImageEngine {
     public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
         Glide.with(context)
                 .load(uri)
-                .asGif()
-                .override(resizeX, resizeY)
-                .priority(Priority.HIGH)
+//                .asGif()
+//                .override(resizeX, resizeY)
+//                .priority(Priority.HIGH)
                 .into(imageView);
     }
 
